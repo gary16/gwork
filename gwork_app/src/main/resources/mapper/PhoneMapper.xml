@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwork.app.springdemo.basic.repository.PhoneRepository">
+	
+	<resultMap id="BaseResultMap" type="com.gwork.app.springdemo.basic.entity.Phone">
+		<id column="TID" property="tid" jdbcType="INTEGER" />
+		<result column="PNAME" property="pname" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		tid,
+		pname
+	</sql>
+
+	<select id="selectAllCount" resultType="java.lang.Integer">
+		select count(*) from
+		phone;
+	</select>
+
+
+	<select id="selectPhonesByPname"  resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List"></include>
+		from phone
+		<if test="pnames!=null and pnames.length>0">
+			where pname in
+			<foreach collection="pnames" item="pname" separator="," open="("
+				close=")" index="i">
+				#{pname,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+	</select>
+
+	<update id="updateByTid" parameterType="com.gwork.app.springdemo.basic.entity.Phone">
+		update phone
+		<set>
+			<if test="pname != null">
+				pname = #{pname,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where tid = #{tid,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>
+  
+
+  
+	

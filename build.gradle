@@ -1,0 +1,175 @@
+apply from: "./libraries.gradle"
+
+buildscript {
+	repositories {
+	    maven { url "http://repo2.maven.org/maven2/" }
+	    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+	    maven { url "https://maven.eveoh.nl/content/repositories/releases" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot" }
+	}
+	dependencies {
+		//Provides additional optional and provided dependency configurations for Gradle along with Maven POM generation support
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC1")
+		classpath ("org.springframework.build.gradle:propdeps-plugin:0.0.7")
+		classpath ("com.bmuschko:gradle-cargo-plugin:2.0.3")
+		classpath ("org.akhikhl.gretty:gretty:1.2.4")
+		classpath ("com.moowork.gradle:gradle-grunt-plugin:0.9")
+	}
+}
+
+
+apply plugin: 'base'
+apply plugin: 'spring-boot'
+
+
+
+
+
+//configuration for all projects
+allprojects { project ->
+	apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    
+	ext.releaseBuild = version.endsWith('RELEASE')
+    ext.snapshotBuild = version.endsWith('SNAPSHOT')
+
+    repositories {
+      //  maven { url "http://mvn1.tools.vipshop.com/nexus/content/groups/public" }
+        maven { url "http://repo2.maven.org/maven2/" }
+	    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+	    maven { url "https://maven.eveoh.nl/content/repositories/releases" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot" }
+    }
+    configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    } 
+}
+
+//find out the java projects
+ext.javaProjects = subprojects.findAll { project -> project.name != 'docs' && project.name != 'manual' && project.name != 'guides'}
+
+
+//find out the webapp projects
+ext.webappProjects = subprojects.findAll {project -> project.name.endsWith('webapp')}
+
+//find out the app projects
+ext.appProjects = subprojects.findAll {project -> project.name.endsWith('app')} - webappProjects
+
+//document/manual/guide project should change the eclipse import
+configure(allprojects - javaProjects) {
+    task afterEclipseImport {
+        ext.srcFile = file('.classpath')
+        inputs.file srcFile
+        outputs.dir srcFile
+
+        onlyIf { !srcFile.exists() }
+
+        doLast {
+            srcFile << """<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="output" path="bin"/>
+</classpath>
+"""
+        }
+    }
+}
+
+configure(javaProjects) {
+    apply from: "$rootDir/gradle/javaProjects.gradle"
+    //apply from: "$rootDir/gradle/mavenDeployment.gradle"
+    //apply from: "$rootDir/gradle/report.gradle"
+}
+
+//configure the application project which should ends with app
+configure(appProjects) {
+	//apply from: "$rootDir/gradle/appProjects.gradle"
+}
+
+//configure the web application project which should ends with webapp
+configure(webappProjects) {
+	apply from: "$rootDir/gradle/webappProjects.gradle"
+}
+
+
+project("logaction") {
+	description = "logaction"
+	dependencies {
+	   compile(libraries.spring_context_support)
+	   compile(libraries.fastjson)
+	   compile(libraries.slf4j_api)
+	   compile(libraries.logback_classic)
+	   compile(libraries.aspectjrt)
+	    compile(libraries.aspectjrtweaver)
+	     compile(libraries.aspectjtools)
+	}
+}
+
+project("gwork_app") {
+	description = "gwork_app"
+		
+	dependencies {
+		 compile(project(":logaction"))
+		 compile(libraries.spring_context_support)
+		 compile(libraries.spring_jdbc)
+		 compile(libraries.spring_data_jpa)
+		 compile(libraries.slf4j_api)
+		 compile(libraries.logback_classic)
+		 compile(libraries.orika_core)
+		 compile(libraries.orika_eclipse_tools)
+		 compile(libraries.mybatis)
+		 compile(libraries.mybatis_spring)
+		 compile(libraries.mybatis_generator)
+		  	  	  	  	  
+		 compile(libraries.commons_lang3)
+		 compile(libraries.commons_collections4)
+		 compile(libraries.commons_beanutils)
+		 compile(libraries.commons_pool)
+		 compile(libraries.commons_compress)
+		 compile(libraries.commons_fileupload)
+		 compile(libraries.commons_httpclient)
+		 compile(libraries.commons_httpcomponents)
+		  
+		 compile(libraries.druid)
+		 compile(libraries.mysql)
+		 compile(libraries.groovy_all)
+		 compile(libraries.h2)
+		 compile(libraries.fastjson)
+		 compile(libraries.jackson2)
+		 compile(libraries.validation_api)
+		 compile(libraries.hibernate_validator)  
+		 compile(libraries.guavaApi)  	 	  	  	  
+	}
+}
+
+project("gwork_webapp") {
+	description = "gwork_webapp"
+	dependencies {
+	compile(project(":gwork_app"))
+	compile(libraries.spring_webmvc)
+	}
+}
+
+project("gwork_boot") {
+    description = "gwork_boot"
+	dependencies {
+	compile(libraries.springbootweb)
+	compile(libraries.springboottest)
+	compile(libraries.guavaApi)  	 	  	  	
+	}
+}
+
+project("http_proxy_app") {
+    description = "http_proxy_app"
+	dependencies {
+	compile(libraries.fastjson)
+	compile(libraries.nettyApi)
+	}	
+}

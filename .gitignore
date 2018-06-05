@@ -1,0 +1,10 @@
+build
+bin/
+.gradle/
+.classpath
+.project
+.gradle/
+.idea/
+.settings/
+.groovy/
+.vinfo

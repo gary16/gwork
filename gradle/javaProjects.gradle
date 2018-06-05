@@ -1,0 +1,123 @@
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+
+compileJava {
+    sourceCompatibility=1.7
+    targetCompatibility=1.7
+}
+
+compileTestJava {
+    sourceCompatibility=1.7
+    targetCompatibility=1.7
+}
+
+
+
+
+[configurations.compile, configurations.runtime, configurations.default, configurations.testCompile]*.exclude group: "org.slf4j", module: "slf4j-log4j12"
+//[configurations.compile, configurations.runtime, configurations.default, configurations.testCompile]*.exclude group: "log4j", module: "log4j"
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            //unify slf4j version
+            if (details.requested.group == 'org.slf4j') {
+                details.useVersion "${slf4jVersion}"
+            }
+            //unify spring framework version
+            if (details.requested.group == 'org.springframework') {
+            	if(details.requested.name == 'springloaded'){
+            		return
+            	}
+                details.useVersion "${springFrameworkVersion}"
+            }
+             //unify common lang version
+            if (details.requested.name == 'commons-lang3') {
+                details.useVersion "${commonsLang3Version}"
+            }
+    }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+project.tasks.matching { it instanceof Test && it.name != 'integrationTest' }.all {
+    jvmArgs = ['-ea', '-Xmx500m', '-XX:MaxPermSize=256M']
+    maxParallelForks = guessMaxForks()
+    logging.captureStandardOutput(LogLevel.INFO)
+}
+
+def guessMaxForks() {
+    int processors = Runtime.runtime.availableProcessors()
+    return Math.max(2, (int) (processors / 2))
+}
+
+javadoc {
+    title = project.name + " $version API"
+    source = sourceSets.main.allJava
+    failOnError = false
+    options {
+        memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+        author = true
+        header = project.name
+        outputLevel = org.gradle.external.javadoc.JavadocOutputLevel.QUIET
+        locale = 'zh_CN'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+}
+
+eclipse.classpath.downloadSources = true
+
+// http://forums.gradle.org/gradle/topics/eclipse_wtp_deploys_testcode_to_server_example_provided
+eclipse.classpath {
+    defaultOutputDir = file('bin/main')
+    file.whenMerged { cp ->
+        cp.entries.findAll { it instanceof SourceFolder && (it.path.contains("test") || it.path.contains("Test")) }*.output = "bin/test"
+    }
+}
+
+// GRADLE-1116
+project.eclipse.classpath.file.whenMerged { classpath ->
+    classpath.entries.removeAll { entry -> entry.path.endsWith('/build/resources/test') }
+    classpath.entries.removeAll { entry -> entry.path.endsWith('/build/classes/test') }
+    classpath.entries.removeAll { entry -> entry.path.endsWith('/build/resources/main') }
+    classpath.entries.removeAll { entry -> entry.path.endsWith('/build/classes/main') }
+}
+
+// GRADLE-1422
+project.eclipseClasspath.doFirst {
+   // delay adding whenMerged till the entryAttributes are added (must be the last whenMerged)
+   project.eclipse.classpath.file.whenMerged { classpath ->
+       def includeDeps = project.configurations.getByName('runtime').collect {f -> f.absolutePath } as Set
+       classpath.entries.each { cp ->
+           if(cp instanceof org.gradle.plugins.ide.eclipse.model.Library) {
+               def include = includeDeps.contains(cp.path)
+               def attr = 'org.eclipse.jst.component.dependency'
+               if(!include) {
+                   cp.entryAttributes.remove(attr)
+               }
+           }
+       }
+   }
+}
+
+//jar {
+//    into('lib') {
+//        from configurations.runtime
+//    }
+//}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives javadocJar
+}

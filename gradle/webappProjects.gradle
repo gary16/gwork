@@ -1,0 +1,52 @@
+apply plugin: 'war'
+//apply plugin: 'rest-doc'
+apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'org.akhikhl.gretty'
+
+cargo {
+	containerId = 'tomcat7x'
+    port = 8080
+    deployable {
+        context = project.name
+    }
+    remote {
+        hostname = 'localhost'
+        username = 'managerbackend'
+        password = 'managerbackend'
+    }
+}
+
+dependencies {
+	providedCompile(libraries.servlet_api)
+	providedCompile(libraries.jsp_api)
+	providedCompile(libraries.el_api)
+	providedCompile(libraries.jstl_api)
+}
+
+gretty{
+	servletContainer = servletcontainer_name
+	jvmArgs=Arrays.asList(servletcontainer_jvmArgs.split(" "))
+	host=servletcontainer_hostname
+	httpPort = Integer.parseInt(servletcontainer_http_port)
+	debugPort = Integer.parseInt(servletcontainer_debug_port)
+	loggingLevel=servletcontainer_logLevel
+	
+	httpEnabled = true
+	scanInterval = 1
+	
+	debugSuspend = true
+	fileLogEnabled = false
+	consoleLogEnabled = true
+	managedClassReload = false
+	
+	fastReload = false
+	reloadOnLibChange = true
+	reloadOnClassChange = true
+	reloadOnConfigChange = true
+	recompileOnSourceChange = true
+	integrationTestTask = ""
+	contextPath = servletcontainer_contextPath
+	contextConfigFile = "gretty_tomcat_context.xml"
+	//logbackConfigFile = "logback.groovy"
+
+}

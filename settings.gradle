@@ -1,0 +1,6 @@
+rootProject.name = 'gwork'
+include 'gwork_app'
+include 'gwork_webapp'
+include 'logaction'
+include 'gwork_boot'
+include 'http_proxy_app'
