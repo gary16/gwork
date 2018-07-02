@@ -1,4 +1,4 @@
-package com.gwork.app.springdemo.basic;
+package com.gwork.app.springdemo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,7 +21,8 @@ public class RunAll {
 	public static void main(String args[]) throws NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		run2("unitSerivce","testString","{\"data\":{\"pname\":\"fdf\",\"tid\":0},\"sId\":\"123\"}");
+		run1();
+		//run2("unitSerivce","testString","{\"data\":{\"pname\":\"fdf\",\"tid\":0},\"sId\":\"123\"}");
 	
 	}
 
@@ -30,7 +31,8 @@ public class RunAll {
 		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
 		ac.start();
 		DemoService demoService = ac.getBean(DemoService.class);
-		int ii = demoService.getAllPhoneCount();
+		Phone phone = demoService.getPhone("1");
+		System.out.println(phone);
 	}
 
 	@SuppressWarnings("all")

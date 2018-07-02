@@ -16,4 +16,8 @@ public interface PhoneRepository {
     List<Phone> selectPhonesByPname(@Param("pnames") String[] pnames);
 
     int updateByTid(Phone phone);
+    
+    Phone selectByPid(@Param("tid") String tid);
+    
+    int insertSelective(Phone phone);
 }

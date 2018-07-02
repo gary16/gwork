@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwork.app.springdemo.basic.repository.PhoneRepository">
-	
+
 	<resultMap id="BaseResultMap" type="com.gwork.app.springdemo.basic.entity.Phone">
 		<id column="TID" property="tid" jdbcType="INTEGER" />
-		<result column="PNAME" property="pname" jdbcType="VARCHAR" />
+		<result column="PNAME" property="pname" jdbcType="VARCHAR"
+			typeHandler="com.gwork.app.springdemo.basic.repository.PhoneTypeHandler" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -17,8 +18,14 @@
 		phone;
 	</select>
 
+	<select id="selectByPid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from
+		phone where tid = #{tid,jdbcType=VARCHAR};
+	</select>
 
-	<select id="selectPhonesByPname"  resultMap="BaseResultMap" >
+	<select id="selectPhonesByPname" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"></include>
 		from phone

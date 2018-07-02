@@ -37,7 +37,7 @@ ext {
 	groovyVersion							= '2.3.10'
 	h2Version                               = '1.4.187'
 
-	jedisVersion                            =  '2.8.1'
+	jedisVersion                            =  '2.9.0'
 	
 	fastjsonVersion                         =  '1.2.7'
 	
@@ -146,8 +146,7 @@ ext {
              
              guavaApi:         "com.google.guava:guava:${guavaVersion}",
              
-             
-             
+             jedisApi:        "redis.clients:jedis:${jedisVersion}",
         ]
     
 }

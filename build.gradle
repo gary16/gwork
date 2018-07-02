@@ -145,7 +145,8 @@ project("gwork_app") {
 		 compile(libraries.jackson2)
 		 compile(libraries.validation_api)
 		 compile(libraries.hibernate_validator)  
-		 compile(libraries.guavaApi)  	 	  	  	  
+		 compile(libraries.guavaApi)
+		 compile(libraries.jedisApi)
 	}
 }
 
