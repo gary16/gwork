@@ -33,7 +33,7 @@ public class DistributionLock {
 				 }
 			 }
 			 if(flg) {
-				 jedis.expire(key, seconds) 
+				 jedis.expire(key, lockSecond) ;
 			 }
 		 }
 		 catch(Exception e){
@@ -43,7 +43,7 @@ public class DistributionLock {
 		
 	}
 	
-	public boolean tryLock(String key,long waitTime) throws InterruptedException {
+	public boolean tryLock(String key,int waitTime) throws InterruptedException {
 		return this.tryLock(key, waitTime, 6000);
 	}
 	

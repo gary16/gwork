@@ -1,4 +1,4 @@
-package com.gwork.app.others;
+package com.gwork.app.others.stringhandle;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-public class JsonCompare {
+public class JsonHandler {
 
 	@SuppressWarnings("all")
 	public static void main(String args[]) throws JsonParseException, JsonMappingException, IOException {
