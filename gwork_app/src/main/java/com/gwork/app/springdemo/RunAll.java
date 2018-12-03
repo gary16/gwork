@@ -21,7 +21,7 @@ public class RunAll {
 	public static void main(String args[]) throws NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		//run1();
+		run1();
 		long maxWorkerId = -1L ^-16;
 		System.out.println(maxWorkerId);
 		//run2("unitSerivce","testString","{\"data\":{\"pname\":\"fdf\",\"tid\":0},\"sId\":\"123\"}");

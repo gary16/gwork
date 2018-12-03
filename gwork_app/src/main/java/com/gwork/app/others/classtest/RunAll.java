@@ -3,6 +3,8 @@ package com.gwork.app.others.classtest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -10,7 +12,22 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 public class RunAll {
 
 	public static void main(String args[]) {
-		runB();
+		runD();
+	}
+	
+	private static void runD() {
+		String str = "-999";
+		int result = Integer.parseInt(str);
+		System.out.println(""+result);
+	}
+	
+	private static void runC() {
+		Pattern pat = Pattern.compile("\\[(\\d+),");
+		String str = "[1,3)";
+		Matcher mth  = pat.matcher(str);
+		if(mth.find()) {
+			System.out.println(mth.group(1));
+		}
 	}
 	
 	private static void runA() {
