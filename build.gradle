@@ -147,6 +147,11 @@ project("gwork_app") {
 		 compile(libraries.hibernate_validator)  
 		 compile(libraries.guavaApi)
 		 compile(libraries.jedisApi)
+		 
+		 compile(libraries.zookeeperApi)
+		 compile(libraries.curatorRecipesApi)
+		 compile(libraries.curatorFrameworkApi)
+		 compile(libraries.curatorClientApi)
 	}
 }
 

@@ -16,6 +16,9 @@ public class RunAll {
 	}
 	
 	private static void runD() {
+		Float aaa =1f;
+	
+		String s = aaa.toString();
 		String str = "-999";
 		int result = Integer.parseInt(str);
 		System.out.println(""+result);

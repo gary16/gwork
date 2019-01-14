@@ -59,8 +59,11 @@ ext {
 	
 	nettyVersion                               ='4.1.15.Final'
 	
-	guavaVersion                               ='23.0'
+	guavaVersion                               ='19.0'
 	
+	zookeeperVersion                           ='3.4.9'
+	
+	curatorVersion                             ='2.9.1'
 	
 	libraries = [
 
@@ -147,6 +150,17 @@ ext {
              guavaApi:         "com.google.guava:guava:${guavaVersion}",
              
              jedisApi:        "redis.clients:jedis:${jedisVersion}",
+			 
+			 zookeeperApi:        "org.apache.zookeeper:zookeeper:${zookeeperVersion}",
+			 
+			 curatorRecipesApi:        "org.apache.curator:curator-recipes:${curatorVersion}",
+			 
+			 curatorFrameworkApi:        "org.apache.curator:curator-framework:${curatorVersion}",
+			 
+			 curatorClientApi:        "org.apache.curator:curator-client:${curatorVersion}",
+			 
+			 
+			 
         ]
     
 }
