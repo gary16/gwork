@@ -71,6 +71,10 @@ ext {
             spring_context_support:    	"org.springframework:spring-context-support:${springFrameworkVersion}",
 			//spring web
 			spring_webmvc:			   	"org.springframework:spring-webmvc:${springFrameworkVersion}",
+			//spring websocket
+			spring_websocket:			   	"org.springframework:spring-websocket:${springFrameworkVersion}",
+			//spring messaging
+			spring_messaging:			   	"org.springframework:spring-messaging:${springFrameworkVersion}",
 			//spring jdbc
 			spring_jdbc:			   	"org.springframework:spring-jdbc:${springFrameworkVersion}",
 			

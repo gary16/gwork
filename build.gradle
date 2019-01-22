@@ -160,6 +160,8 @@ project("gwork_webapp") {
 	dependencies {
 	compile(project(":gwork_app"))
 	compile(libraries.spring_webmvc)
+	compile(libraries.spring_websocket)
+	compile(libraries.spring_messaging)
 	}
 }
 
