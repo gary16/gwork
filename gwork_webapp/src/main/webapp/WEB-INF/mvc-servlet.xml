@@ -12,10 +12,8 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<!--scan all @Controller class only -->
-	<context:component-scan base-package="com.gwork.webapp.controller"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="com.gwork.webapp.controller,com.gwork.webapp.config"
+		use-default-filters="true">
 	</context:component-scan>
 
 	<!-- <bean id="restApiControllerHandlerMapping" class="com.pjbest.tps.common.mapping.RestApiControllerHandlerMappingExtend"> 
@@ -24,9 +22,9 @@
 		<property name="messageSource" ref="messageSource" /> <property name="logAsError" 
 		value="false" /> </bean> -->
 
-	<mvc:interceptors>
+<!-- 	<mvc:interceptors>
 		<bean class="com.gwork.webapp.interceptor.AuthorizeInterceptor"></bean>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 	<!--i18n -->
 	<bean id="messageSource"

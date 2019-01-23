@@ -5,7 +5,7 @@
 ext {
 	
 	
-	springFrameworkVersion 					= '4.0.5.RELEASE'
+	springFrameworkVersion 					= '4.1.9.RELEASE'
 	springDataJpaVersion 					= '1.6.0.RELEASE'
 
 	

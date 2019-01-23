@@ -10,9 +10,9 @@ public class RunAll {
 		Business target = new TargetImpl();
 		InvocationHandler InvocationHandler = new ProxyHandler(target);
 		Business proxy = (Business) Proxy.newProxyInstance(RunAll.class.getClassLoader(), new Class[] {Business.class}, InvocationHandler);
-		//事务生效
+		//浠ｇ悊璋冪敤
 		proxy.handle();
-		//事务不生效
+		//this璋冪敤
 		proxy.run();
 	}
 	
