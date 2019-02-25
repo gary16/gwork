@@ -7,7 +7,7 @@ public class RunAll {
 
 	@SuppressWarnings("all")
 	public static void main(String[] args) throws Exception {
-		method1();
+		method3();
 	}
 
 	public static void method1() throws Exception {
@@ -34,6 +34,19 @@ public class RunAll {
 		Object obj = clz.newInstance();
 		Method mth1 = clz.getMethod("getName");
 		String result = (String) mth1.invoke(obj, null);
+		System.out.println(result);
+	}
+	
+	public static void method3() throws Exception {
+		DemoModule demoModule =new DemoModule();
+		String result = demoModule.getName();
+		System.out.println(result);
+		
+		byte[] src = CodeCompile.getDemoClassResource(1);
+		CustomizeClassLoader loader1 = new CustomizeClassLoader(src);
+		Class clz = loader1.loadClass("com.gwork.app.others.classloader.DemoModule");
+		demoModule = (DemoModule) clz.newInstance();
+		result = demoModule.getName();
 		System.out.println(result);
 	}
 
