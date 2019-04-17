@@ -1,5 +1,7 @@
 package com.gwork.app.others.classtest;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,17 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 public class RunAll {
 
 	public static void main(String args[]) {
-		runD();
+		runE();
+	}
+	
+	private static void runE() {
+		BigDecimal runTime = new BigDecimal(new Date("2016/01/01").getTime());
+		BigDecimal nowTime = new BigDecimal(new Date().getTime());
+		BigDecimal divisor = new BigDecimal(24*60*60*1000*365D);
+		
+		
+		Double score = nowTime.subtract(runTime).divide(divisor,3,RoundingMode.CEILING).doubleValue();
+		System.out.println(score +"" );
 	}
 	
 	private static void runD() {
