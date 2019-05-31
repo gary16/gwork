@@ -1,33 +1,38 @@
 package com.gwork.app.springdemo;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gwork.app.springdemo.basic.entity.Phone;
 import com.gwork.app.springdemo.basic.entity.RequestData;
 import com.gwork.app.springdemo.basic.service.DemoService;
+import com.gwork.app.springdemo.basic.service.RedisDemoService;
+import com.gwork.app.springdemo.config.BaseConfig;
+import com.gwork.app.springdemo.statemchine.service.StateMachineService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+
+import java.lang.reflect.*;
 
 public class RunAll {
 
 	@SuppressWarnings("all")
 	public static void main(String args[]) throws NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-
-		run1();
-		long maxWorkerId = -1L ^-16;
-		System.out.println(maxWorkerId);
-		//run2("unitSerivce","testString","{\"data\":{\"pname\":\"fdf\",\"tid\":0},\"sId\":\"123\"}");
-	
+		run3();
 	}
 
+
+
+	@SuppressWarnings("all")
+	public static void run0() {
+		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
+		ac.start();
+		RedisDemoService demoService = ac.getBean(RedisDemoService.class);
+		String keyStr = demoService.keys("abc*");
+		System.out.println(keyStr);
+	}
+	
 	@SuppressWarnings("all")
 	public static void run1() {
 		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
@@ -82,4 +87,12 @@ public class RunAll {
 		}	
 	}
 
+
+	@SuppressWarnings("all")
+	public static void run3() {
+		AnnotationConfigApplicationContext ac  = new AnnotationConfigApplicationContext(BaseConfig.class);
+		ac.start();
+		StateMachineService stateMachineService = ac.getBean(StateMachineService.class);
+		stateMachineService.go2State1();
+	}
 }

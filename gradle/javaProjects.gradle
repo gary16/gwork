@@ -31,12 +31,12 @@ configurations.all {
                 details.useVersion "${slf4jVersion}"
             }
             //unify spring framework version
-            if (details.requested.group == 'org.springframework') {
-            	if(details.requested.name == 'springloaded'){
-            		return
-            	}
-                details.useVersion "${springFrameworkVersion}"
-            }
+//            if (details.requested.group == 'org.springframework') {
+//            	if(details.requested.name == 'springloaded'){
+//            		return
+//            	}
+//                details.useVersion "${springFrameworkVersion}"
+//            }
              //unify common lang version
             if (details.requested.name == 'commons-lang3') {
                 details.useVersion "${commonsLang3Version}"

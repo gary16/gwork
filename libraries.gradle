@@ -7,6 +7,7 @@ ext {
 	
 	springFrameworkVersion 					= '4.1.9.RELEASE'
 	springDataJpaVersion 					= '1.6.0.RELEASE'
+	springStateMachineVersion               = '1.2.14.RELEASE'
 
 	
 	slf4jVersion							= '1.7.7'
@@ -38,6 +39,7 @@ ext {
 	h2Version                               = '1.4.187'
 
 	jedisVersion                            =  '2.9.0'
+	springRedisVersion                      =  '1.6.2.RELEASE'
 	
 	fastjsonVersion                         =  '1.2.7'
 	
@@ -55,7 +57,7 @@ ext {
 	validationApiVersion					= '1.1.0.Final'
 	hibernateValidatorVersion				= '5.1.1.Final'
 	
-	springbootVersion                              = '1.0.0.RC1'
+	springbootVersion                              = '1.2.5.RELEASE'
 	
 	nettyVersion                               ='4.1.15.Final'
 	
@@ -80,8 +82,9 @@ ext {
 			
 			 //spring_data_jpa
             spring_data_jpa:		   	"org.springframework.data:spring-data-jpa:${springDataJpaVersion}",
-            
-         
+
+			//spring_state_machie
+			spring_state_machie:          "org.springframework.statemachine:spring-statemachine-core:${springStateMachineVersion}",
         
             
             slf4j_api:					"org.slf4j:slf4j-api:${slf4jVersion}",
@@ -144,16 +147,13 @@ ext {
 				hibernate_validator:		"org.hibernate:hibernate-validator:${hibernateValidatorVersion}",
 				
 				
-             springboot:		"org.springframework.boot:spring-boot-starter-actuator:${springbootVersion}",
-             springbootweb:		"org.springframework.boot:spring-boot-starter-web:${springbootVersion}",
-             springbootdatajpa:		"org.springframework.boot:spring-boot-starter-data-jpa:${springbootVersion}",
-             springboottest:             "org.springframework.boot:spring-boot-starter-test:${springbootVersion}",
-             
              nettyApi:          "io.netty:netty-all:${nettyVersion}",
              
              guavaApi:         "com.google.guava:guava:${guavaVersion}",
              
              jedisApi:        "redis.clients:jedis:${jedisVersion}",
+             springRedisApi:     "org.springframework.data:spring-data-redis:${springRedisVersion}",
+             
 			 
 			 zookeeperApi:        "org.apache.zookeeper:zookeeper:${zookeeperVersion}",
 			 
@@ -162,9 +162,11 @@ ext {
 			 curatorFrameworkApi:        "org.apache.curator:curator-framework:${curatorVersion}",
 			 
 			 curatorClientApi:        "org.apache.curator:curator-client:${curatorVersion}",
-			 
-			 
-			 
+
+
+			springbootparent:		"org.springframework.boot:spring-boot-starter-parent:${springbootVersion}",
+			springbootstarter:		"org.springframework.boot:spring-boot-starter:${springbootVersion}",
+
         ]
     
 }

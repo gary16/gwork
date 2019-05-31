@@ -3,36 +3,31 @@ apply from: "./libraries.gradle"
 buildscript {
 	repositories {
 	    maven { url "http://repo2.maven.org/maven2/" }
+		maven { url 'https://repo.spring.io/libs-milestone' }
+		maven { url "http://repo.spring.io/plugins-release" }
+		maven { url "https://repo.spring.io/milestone" }
+		maven { url "https://repo.spring.io/snapshot" }
 	    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-	    maven { url "https://maven.eveoh.nl/content/repositories/releases" }
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "http://repo.spring.io/plugins-release" }
-        maven { url "https://repo.spring.io/milestone" }
-        maven { url "https://repo.spring.io/snapshot" }
 	}
 	dependencies {
 		//Provides additional optional and provided dependency configurations for Gradle along with Maven POM generation support
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC1")
 		classpath ("org.springframework.build.gradle:propdeps-plugin:0.0.7")
 		classpath ("com.bmuschko:gradle-cargo-plugin:2.0.3")
 		classpath ("org.akhikhl.gretty:gretty:1.2.4")
 		classpath ("com.moowork.gradle:gradle-grunt-plugin:0.9")
+		classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE'
 	}
 }
 
 
 apply plugin: 'base'
-apply plugin: 'spring-boot'
-
-
-
-
 
 //configuration for all projects
 allprojects { project ->
 	apply plugin: 'idea'
     apply plugin: 'eclipse'
-    
+
 	ext.releaseBuild = version.endsWith('RELEASE')
     ext.snapshotBuild = version.endsWith('SNAPSHOT')
 
@@ -120,6 +115,8 @@ project("gwork_app") {
 		 compile(libraries.spring_context_support)
 		 compile(libraries.spring_jdbc)
 		 compile(libraries.spring_data_jpa)
+		 compile(libraries.spring_state_machie)
+
 		 compile(libraries.slf4j_api)
 		 compile(libraries.logback_classic)
 		 compile(libraries.orika_core)
@@ -147,7 +144,7 @@ project("gwork_app") {
 		 compile(libraries.hibernate_validator)  
 		 compile(libraries.guavaApi)
 		 compile(libraries.jedisApi)
-		 
+		 compile(libraries.springRedisApi)
 		 compile(libraries.zookeeperApi)
 		 compile(libraries.curatorRecipesApi)
 		 compile(libraries.curatorFrameworkApi)
@@ -166,14 +163,14 @@ project("gwork_webapp") {
 }
 
 project("gwork_boot") {
-    description = "gwork_boot"
+	description = "gwork_boot"
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 	dependencies {
-	compile(libraries.springbootweb)
-	compile(libraries.springboottest)
-	compile(libraries.guavaApi)  	 	  	  	
+		compile(libraries.springbootstarter)
+		compile(libraries.spring_state_machie)
 	}
 }
-
 project("http_proxy_app") {
     description = "http_proxy_app"
 	dependencies {
